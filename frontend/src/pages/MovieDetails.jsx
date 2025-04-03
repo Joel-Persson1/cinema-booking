@@ -18,5 +18,6 @@ export default function MovieDetails() {
 
 export async function loader({ params }) {
   const movie = await getMovieDetails(params.movieId);
+  const schedule = await getScheduleById(params.movieId);
   return movie;
 }

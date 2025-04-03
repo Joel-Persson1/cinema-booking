@@ -2,7 +2,7 @@ import {
   getMoviesFromDB,
   getMoviesByIdFromDB,
   insertMovieToDB,
-} from "../models/movieModel";
+} from "../models/movieModel.js";
 
 // Detta är våra funktioner för våra endpoints. Fyll i med request och returnera ett response
 // Detta är bara en layout ingenting fungerar ännu
