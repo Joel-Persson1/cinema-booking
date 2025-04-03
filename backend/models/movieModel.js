@@ -5,8 +5,8 @@ import db from "../utilities/database.js";
 export const getMoviesFromDB = () => {};
 
 export const getMovieByIdFromDB = (id) => {
-  const stmt = db.prepare("SELECT * FROM movies WHERE movie_id  = ?");
-  return stmt.all(id);
+  const stmt = db.prepare("SELECT * FROM movies WHERE movie_id=?");
+  return stmt.get(id);
 };
 
 export const getScheduleByIdFromDB = (id) => {
