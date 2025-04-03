@@ -32,11 +32,11 @@ const Dummy = [
 export async function getMovies() {}
 
 export async function getMovieById(id) {
-  // const response = await fetch(`${API_URL}api/movies/${id}`);
-  // return await response.json();
-  const response = Dummy.find((item) => item.movie_id == id);
+  const response = await fetch(`${API_URL}api/movies/${id}`);
+  return await response.json();
 
-  return response;
+  // const response = Dummy.find((item) => item.movie_id == id);
+  // return response;
 }
 
 export async function getScheduleById(id) {

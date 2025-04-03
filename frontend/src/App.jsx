@@ -3,6 +3,7 @@ import Home, { loader as moviesLoader } from "./pages/Home";
 import MovieDetails, { loader as detailsLoader } from "./pages/MovieDetails";
 import AppLayout from "./pages/AppLayout";
 import Error from "./components/Error";
+import Cart, { loader as cartLoader } from "./pages/Cart";
 
 const router = createBrowserRouter([
   {
@@ -22,10 +23,12 @@ const router = createBrowserRouter([
         loader: detailsLoader,
         errorElement: <Error />,
       },
-      // {
-      //   path: "/booking",
-      //   element: <Cart />,
-      // },
+      {
+        path: "/booking",
+        element: <Cart />,
+        loader: cartLoader,
+        errorElement: <Error />,
+      },
     ],
   },
 ]);

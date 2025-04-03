@@ -4,6 +4,9 @@ import ScheduleById from "../components/ScheduleById";
 
 export default function MovieDetails() {
   const { movie, schedule } = useLoaderData();
+  console.log(movie);
+
+  if (!movie) return <p>Movie not found</p>;
 
   return (
     <div>
@@ -16,7 +19,7 @@ export default function MovieDetails() {
         <p>{movie.plot}</p>
       </div>
 
-      <ScheduleById />
+      <ScheduleById schedule={schedule} />
     </div>
   );
 }
