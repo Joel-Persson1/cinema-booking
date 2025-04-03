@@ -4,7 +4,8 @@ import {
   getMovies,
   getMovieById,
   postMovie,
-} from "../controllers/movieController";
+  getMovieScheduleById,
+} from "../controllers/movieController.js";
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ const router = express.Router();
 router.get("/api/movies", getMovies);
 
 router.get("/api/movies/:id", getMovieById);
+
+router.get("/api/schedule/:id", getMovieScheduleById);
 
 router.post("/api/movies/post", postMovie);
 
