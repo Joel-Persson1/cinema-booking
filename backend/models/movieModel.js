@@ -4,7 +4,10 @@ import db from "../utilities/database.js";
 
 export const getMoviesFromDB = () => {};
 
-export const getMoviesByIdFromDB = (id) => {};
+export const getMovieByIdFromDB = (id) => {
+  const stmt = db.prepare("SELECT * FROM movies WHERE movie_id  = ?");
+  return stmt.all(id);
+};
 
 export const getScheduleByIdFromDB = (id) => {
   const query = `

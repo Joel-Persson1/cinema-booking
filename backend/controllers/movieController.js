@@ -1,6 +1,6 @@
 import {
   getMoviesFromDB,
-  getMoviesByIdFromDB,
+  getMovieByIdFromDB,
   insertMovieToDB,
   getScheduleByIdFromDB,
 } from "../models/movieModel.js";
@@ -13,7 +13,18 @@ export const getMovies = (req, res, next) => {
 };
 
 export const getMovieById = (req, res, next) => {
-  const movieWithId = getMoviesByIdFromDB();
+  try {
+    const { id } = req.params;
+    const response = getMovieByIdFromDB(id);
+
+    if (!response) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getMovieScheduleById = (req, res, next) => {
