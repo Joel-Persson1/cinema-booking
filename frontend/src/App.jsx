@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home, { loader as moviesLoader } from "./pages/Home";
-import MovieDetails from "./pages/MovieDetails";
+import MovieDetails, { loader as detailsLoader } from "./pages/MovieDetails";
 import AppLayout from "./pages/AppLayout";
 import Error from "./components/Error";
 
@@ -19,12 +19,13 @@ const router = createBrowserRouter([
       {
         path: "/movie/:movieId",
         element: <MovieDetails />,
+        loader: detailsLoader,
         errorElement: <Error />,
       },
-      {
-        path: "/booking",
-        element: <Cart />,
-      },
+      // {
+      //   path: "/booking",
+      //   element: <Cart />,
+      // },
     ],
   },
 ]);

@@ -1,23 +1,29 @@
 import { useLoaderData } from "react-router-dom";
-import { getMovieDetails } from "../../services/apiRestaurant";
+import { getMovieById, getScheduleById } from "../services/MovieApi";
+import ScheduleById from "../components/ScheduleById";
 
 export default function MovieDetails() {
-  const movie = useLoaderData();
+  const { movie, schedule } = useLoaderData();
 
   return (
-    <div className="movie-details">
-      <h1>{movie.title}</h1>
-      <p>{movie.year}</p>
-      <p>{movie.runtime}</p>
-      <p>{movie.genre}</p>
-      <p>{movie.director}</p>
-      <p>{movie.plot}</p>
+    <div>
+      <div className="movie-details">
+        <h1>{movie.title}</h1>
+        <p>{movie.year}</p>
+        <p>{movie.runtime}</p>
+        <p>{movie.genre}</p>
+        <p>{movie.director}</p>
+        <p>{movie.plot}</p>
+      </div>
+
+      <ScheduleById />
     </div>
   );
 }
 
 export async function loader({ params }) {
-  const movie = await getMovieDetails(params.movieId);
+  const movie = await getMovieById(params.movieId);
+
   const schedule = await getScheduleById(params.movieId);
-  return movie;
+  return { movie, schedule };
 }
