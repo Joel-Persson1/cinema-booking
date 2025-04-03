@@ -7,6 +7,8 @@ function ScheduleById({ schedule }) {
 
   return (
     <ul>
+      <h3>Screenings Today</h3>
+
       {schedule.map((item) => (
         <ScheduleItem data={item} key={item.screening_id} />
       ))}

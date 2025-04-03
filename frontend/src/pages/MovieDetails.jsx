@@ -6,7 +6,7 @@ export default function MovieDetails() {
   const { movie, schedule } = useLoaderData();
   console.log(movie);
 
-  if (!movie) return <p>Movie not found</p>;
+  if (movie.error) return <p>Movie not found</p>;
 
   return (
     <div>
