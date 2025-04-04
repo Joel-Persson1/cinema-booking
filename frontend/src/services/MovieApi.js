@@ -1,6 +1,9 @@
 const API_URL = "http://localhost:3000/";
 
-export async function getMovies() {}
+export async function getMovies() {
+  const response = await fetch(`${API_URL}api/movies`);
+  return await response.json();
+}
 
 export async function getMovieById(id) {
   const response = await fetch(`${API_URL}api/movies/${id}`);

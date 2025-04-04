@@ -10,6 +10,8 @@ import {
 
 export const getMovies = (req, res, next) => {
   const movies = getMoviesFromDB();
+
+  res.status(200).json(movies);
 };
 
 export const getMovieById = (req, res, next) => {
