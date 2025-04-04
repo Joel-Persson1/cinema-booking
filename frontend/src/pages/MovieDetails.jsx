@@ -1,3 +1,4 @@
+import ReactPlayer from "react-player";
 import { useLoaderData } from "react-router-dom";
 import { getMovieById, getScheduleById } from "../services/MovieApi";
 import ScheduleById from "../components/ScheduleById";
@@ -10,6 +11,8 @@ export default function MovieDetails() {
 
   return (
     <div>
+      <ReactPlayer url={movie.trailer_url} />
+
       <div className="movie-details">
         <h1>{movie.title}</h1>
         <p>{movie.year}</p>
