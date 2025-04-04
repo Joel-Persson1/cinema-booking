@@ -3,6 +3,7 @@ import {
   getMovieByIdFromDB,
   insertMovieToDB,
   getScheduleByIdFromDB,
+  getScreeningWithMovieFromDB,
 } from "../models/movieModel.js";
 
 // Detta är våra funktioner för våra endpoints. Fyll i med request och returnera ett response
@@ -39,6 +40,17 @@ export const getMovieScheduleById = (req, res, next) => {
   }
 
   res.status(200).json(scheduleWithId);
+};
+
+export const getScreeningWithMovie_ = (req, res, next) => {
+  const { id } = req.params;
+
+  const screeningWithMovie = getScreeningWithMovieFromDB(id);
+
+  if (!screeningWithMovie)
+    return res.status(404).json({ error: "screening not found" });
+
+  res.status(200).json(screeningWithMovie);
 };
 
 export const postMovie = (req, res, next) => {
