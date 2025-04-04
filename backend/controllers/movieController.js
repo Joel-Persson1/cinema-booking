@@ -2,7 +2,8 @@ import {
   getMoviesFromDB,
   getMovieByIdFromDB,
   insertMovieToDB,
-} from "../models/movieModel";
+  getScheduleByIdFromDB,
+} from "../models/movieModel.js";
 
 // Detta är våra funktioner för våra endpoints. Fyll i med request och returnera ett response
 // Detta är bara en layout ingenting fungerar ännu
@@ -24,6 +25,18 @@ export const getMovieById = (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getMovieScheduleById = (req, res, next) => {
+  const { id } = req.params;
+
+  const scheduleWithId = getScheduleByIdFromDB(id);
+
+  if (!scheduleWithId) {
+    return res.status(404).json({ error: "Schedule not found" });
+  }
+
+  res.status(200).json(scheduleWithId);
 };
 
 export const postMovie = (req, res, next) => {
