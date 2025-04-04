@@ -2,7 +2,10 @@ import db from "../utilities/database.js";
 
 // Models filerna hanterar databas querys. Applicera här returnera resultaten utan error hantering.
 
-export const getMoviesFromDB = () => {};
+export const getMoviesFromDB = () => {
+  const stmt = db.prepare(`SELECT * FROM movies`);
+  return stmt.all();
+};
 
 export const getMovieByIdFromDB = (id) => {
   const stmt = db.prepare("SELECT * FROM movies WHERE movie_id=?");
