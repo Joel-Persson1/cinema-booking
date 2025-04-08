@@ -17,5 +17,6 @@ export async function getScheduleById(id) {
 
 export async function getScreeningWithMovie(id) {
   const response = await fetch(`${API_URL}api/booking/${id}`);
+
   return await response.json();
 }
