@@ -14,26 +14,26 @@ Detta är ett teaterbokningssystem med en React-frontend och Node.js-backend.
 Ladda ner projekt från github och lägg in i vs code
 ```
 
-2. Installera backend-beroenden:
+2. Installera backend-beroenden i backend terminalen:
 ```bash
-cd backend
-npm install
+cd backend, tryck enter. 
+npm install, tryck enter
 ```
 
-3. Installera frontend-beroenden:
+3. Installera frontend-beroenden i frontend terminalen:
 ```bash
-cd frontend
-npm install
+cd frontend, tryck enter
+npm install, tryck enter
 ```
 
 ## Starta projektet
 
 ### Starta backend-servern
 
-1. Öppna en terminal och navigera till backend-mappen:
+1. Öppna en by terminal och navigera till backend-mappen:
 ```bash
-cd backend
-npm start
+cd backend, tryck enter.
+npm start, tryck enter.
 ```
 
 Backend-servern kommer att starta på `http://localhost:3000`
@@ -42,8 +42,8 @@ Backend-servern kommer att starta på `http://localhost:3000`
 
 1. Öppna en ny terminal och navigera till frontend-mappen:
 ```bash
-cd frontend 
-npm run dev
+cd frontend, tryck enter.
+npm run dev, tryck enter.
 ```
 
 Frontend-servern kommer att starta på `http://localhost:5173` (eller en annan port om 5173 är upptagen)
@@ -57,10 +57,10 @@ För att underlätta utvecklingen av backend-servern kan du använda nodemon, so
 npm install -g nodemon
 ```
 
-2. Starta backend-servern med nodemon:
+2. Starta backend-servern med nodemon genom att gp till backend terminlen:
 ```bash
-cd backend
-nodemon server.js
+cd backend, tryck enter. 
+nodemon server.js, tryck enter. 
 ```
 
 Nu kommer servern automatiskt att starta om när du sparar ändringar i backend-filerna.
