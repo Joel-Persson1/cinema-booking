@@ -11,8 +11,7 @@ Detta är ett teaterbokningssystem med en React-frontend och Node.js-backend.
 
 1. Klona projektet:
 ```bash
-git clone [projekt-url]
-cd [projekt-mapp]
+Ladda ner projekt från github och lägg in i vs code
 ```
 
 2. Installera backend-beroenden:
