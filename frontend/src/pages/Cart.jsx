@@ -1,15 +1,23 @@
 import { Form, useLoaderData } from "react-router-dom";
 import { getScreeningWithMovie } from "../services/MovieApi";
 import { formatScreeningDate } from "../helpers/convertToDate";
-import { Children, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import SeatPicker from "../components/SeatPicker";
 
 function Cart() {
   const info = useLoaderData();
 
-  const [adults, setAdults] = useState(0);
+  console.log(info);
+
+  const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [pensioner, setPensioner] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  const totalTickets = adults + children + pensioner;
+
+  const disabled = selectedSeats.length < totalTickets;
 
   const date = formatScreeningDate(info.date);
 
@@ -129,7 +137,21 @@ function Cart() {
           </div>
         </div>
 
-        <input type="submit" />
+        <SeatPicker
+          seatsPerRow={info.seats_per_row}
+          bookedSeats={info.bookedSeats}
+          numTickets={adults + children + pensioner}
+          selectedSeats={selectedSeats}
+          setSelectedSeats={setSelectedSeats}
+        />
+
+        <input
+          type="hidden"
+          name="selectedSeats"
+          value={JSON.stringify(selectedSeats)}
+        />
+
+        {totalTickets > 0 && <input type="submit" disabled={disabled} />}
       </Form>
     </div>
   );
@@ -147,7 +169,7 @@ export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
 
-  console.log("Submitting");
+  data.selectedSeats = JSON.parse(data.selectedSeats);
 
   console.log(data);
 }

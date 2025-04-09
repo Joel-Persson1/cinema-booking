@@ -1,3 +1,5 @@
+@import url("./styles/SeatPicker.css");
+
 .loader {
   width: 45px;
   aspect-ratio: 0.75;
