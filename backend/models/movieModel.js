@@ -35,12 +35,13 @@ export const getScheduleByIdFromDB = (id) => {
 };
 
 export const getScreeningWithMovieFromDB = (id) => {
-  const query = `
+  const screeningQuery = `
   SELECT
     s.screening_id,
     s.start_time,
     s.ticket_price,
     s.date,
+    t.seats_per_row as seats_per_row,
     t.name AS theater_name,
     t.total_seats AS theater_capacity,
     (t.total_seats - COUNT(bs.booked_seat_id)) AS available_seats,
@@ -68,9 +69,23 @@ export const getScreeningWithMovieFromDB = (id) => {
     m.imdb_id
 `;
 
-  const stmt = db.prepare(query);
+  const bookedSeatsQuery = `
+    SELECT seat_number 
+    FROM booked_seats 
+    JOIN bookings ON booked_seats.booking_id = bookings.booking_id 
+    WHERE bookings.screening_id = ?
+  `;
 
-  return stmt.get(id);
+  const screening = db.prepare(screeningQuery).get(id);
+
+  const parsedSeatsPerRow = JSON.parse(screening.seats_per_row);
+
+  const bookedSeats = db
+    .prepare(bookedSeatsQuery)
+    .all(id)
+    .map((row) => row.seat_number);
+
+  return { ...screening, seats_per_row: parsedSeatsPerRow, bookedSeats };
 };
 
 export const insertMovieToDB = () => {};
