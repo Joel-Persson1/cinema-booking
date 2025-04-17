@@ -8,7 +8,12 @@ import movieRoutes from "./routes/movieRoutes.js";
 import { authRouter } from "./routes/authRouter.js";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 const SQLiteStore = SQLiteStoreFactory(session);
 
 app.use(express.json());
@@ -18,7 +23,7 @@ app.use(
     secret: "SebbeÄlskarAttSparkaSparkcykel",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: "auto" },
+    cookie: { secure: false, httpOnly: true, sameSite: "lax" },
     store: new SQLiteStore({ client: db }),
   })
 );

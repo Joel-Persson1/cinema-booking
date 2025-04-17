@@ -13,13 +13,17 @@ export const whoami = (req, res) => {
 
 export const login = (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
+
   const encryptedPassword = encrypt(password);
 
   const credentials = getCredentialFromDB(email);
-  if (!credentials) return res.status(400).send(`Wrong email or password`);
+  if (!credentials)
+    return res.status(400).json({ error: `Wrong email or password` });
 
   const passwordsMatch = credentials.password === encryptedPassword;
-  if (!passwordsMatch) return res.status(400).send(`Wrong email or password`);
+  if (!passwordsMatch)
+    return res.status(400).json({ error: `Wrong email or password` });
 
   const user = getUserFromDB(credentials.userId);
   req.session.user = user;
@@ -28,7 +32,13 @@ export const login = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.session.destroy(() => res.send("Logged out"));
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Logout failed" });
+    }
+    res.clearCookie("connect.sid");
+    return res.json({ message: "Logged out" });
+  });
 };
 
 export const signup = (req, res) => {
