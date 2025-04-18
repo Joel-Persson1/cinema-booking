@@ -7,6 +7,7 @@ import Cart, {
   loader as cartLoader,
   action as createBookingAction,
 } from "./pages/Cart";
+import Login, { action as loginAction } from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
         loader: cartLoader,
         action: createBookingAction,
         errorElement: <Error />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+        action: loginAction,
       },
     ],
   },
