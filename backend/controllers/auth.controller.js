@@ -1,4 +1,5 @@
 import {
+  checkEmailExists,
   getCredentialFromDB,
   getUserFromDB,
   insertCredentialToDB,
@@ -42,12 +43,27 @@ export const logout = (req, res) => {
 };
 
 export const signup = (req, res) => {
-  const { password, email, name } = req.body;
-  const encryptedPassword = encrypt(password);
+  try {
+    const { password, email, name } = req.body;
 
-  const userId = insertUserToDB(name);
+    if (!password | !email || !name) {
+      return res.status(400).json({ error: "Please enter every field" });
+    }
 
-  insertCredentialToDB(userId, email, encryptedPassword);
+    const emailExists = checkEmailExists(email);
+    if (emailExists) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
 
-  res.send("Signup successful");
+    const encryptedPassword = encrypt(password);
+
+    const userId = insertUserToDB(name);
+
+    insertCredentialToDB(userId, email, encryptedPassword);
+
+    res.json({ message: "Signup successful" });
+  } catch (error) {
+    console.error("signup error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 };
