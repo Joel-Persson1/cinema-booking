@@ -23,3 +23,7 @@ export const insertCredentialToDB = (userId, email, encryptedPassword) => {
     )
     .run(userId, email, encryptedPassword);
 };
+
+export const checkEmailExists = (email) => {
+  return db.prepare("SELECT * FROM credentials WHERE email = ?").get(email);
+};

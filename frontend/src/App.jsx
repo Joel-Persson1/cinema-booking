@@ -8,6 +8,7 @@ import Cart, {
   action as createBookingAction,
 } from "./pages/Cart";
 import Login, { action as loginAction } from "./pages/Login";
+import Signup, { action as signupAction } from "./pages/Signup";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,11 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
         action: loginAction,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+        action: signupAction,
       },
     ],
   },

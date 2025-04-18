@@ -1,29 +1,21 @@
-import { useEffect } from "react";
-import { Form, Link, useActionData, useNavigate } from "react-router-dom";
+import { Form, redirect, useActionData } from "react-router-dom";
 
-function Login() {
+function Signup() {
   const formMessage = useActionData();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (formMessage?.success) {
-      navigate("/", {
-        state: { message: "Welcome back!" },
-      });
-    }
-  }, [formMessage, navigate]);
 
   return (
     <div>
       {formMessage?.error && <div>{formMessage.error}</div>}
 
       <Form method="POST">
+        <label htmlFor="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Name" required />
         <label htmlFor="email">Email</label>
         <input
           id="email"
           name="email"
           type="email"
-          placeholder="email"
+          placeholder="Email"
           required
         />
         <label htmlFor="password">Password</label>
@@ -36,19 +28,15 @@ function Login() {
         />
         <input type="submit" />
       </Form>
-
-      <p>
-        Don't have a account? <Link to="/signup">Signup</Link>
-      </p>
     </div>
   );
 }
 
 export async function action({ request }) {
-  const loginData = await request.formData();
-  const data = Object.fromEntries(loginData);
+  const signupData = await request.formData();
+  const data = Object.fromEntries(signupData);
 
-  const res = await fetch("http://localhost:3000/auth/login", {
+  const res = await fetch("http://localhost:3000/auth/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,13 +45,13 @@ export async function action({ request }) {
     body: JSON.stringify(data),
   });
 
-  const userData = await res.json();
+  const response = await res.json();
 
   if (!res.ok) {
-    return { error: userData.error || "An unexpected error happend" };
+    return { error: response.error || "signup failed" };
   } else {
-    return { success: userData.message || "Logged in successfully" };
+    return redirect("/login");
   }
 }
 
-export default Login;
+export default Signup;
