@@ -1,5 +1,5 @@
-import { Form, useLoaderData } from "react-router-dom";
-import { getScreeningWithMovie } from "../services/MovieApi";
+import { Form, Navigate, redirect, useLoaderData } from "react-router-dom";
+import { checkIfLoggedIn, getScreeningWithMovie } from "../services/MovieApi";
 import { formatScreeningDate } from "../helpers/convertToDate";
 import { useEffect, useState } from "react";
 import SeatPicker from "../components/SeatPicker";
@@ -168,10 +168,13 @@ export async function loader({ request }) {
 export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-
+  const isUserLoggedIn = await checkIfLoggedIn();
+  console.log(isUserLoggedIn);
   data.selectedSeats = JSON.parse(data.selectedSeats);
-
-  console.log(data);
+  if (isUserLoggedIn?.error) return redirect("/login");
+  if (isUserLoggedIn?.success) {
+    console.log(data);
+  }
 }
 
 export default Cart;

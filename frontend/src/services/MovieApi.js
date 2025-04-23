@@ -20,3 +20,12 @@ export async function getScreeningWithMovie(id) {
 
   return await response.json();
 }
+
+export async function checkIfLoggedIn() {
+  const response = await fetch(`${API_URL}auth/whoami`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  return await response.json();
+}
