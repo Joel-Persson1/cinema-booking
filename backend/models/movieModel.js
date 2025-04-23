@@ -88,4 +88,61 @@ export const getScreeningWithMovieFromDB = (id) => {
   return { ...screening, seats_per_row: parsedSeatsPerRow, bookedSeats };
 };
 
+export const createBookingToDB = ({
+  booking_reference,
+  user_id,
+  screening_id,
+  total_price,
+  num_tickets,
+  booked_seats,
+}) => {
+  return new Promise((resolve, reject) => {
+    try {
+      console.log("Startar insättning i bookings-tabellen");
+
+      // Infogar bokning
+      const insertBookingStmt = db.prepare(
+        `INSERT INTO bookings (
+          booking_reference, user_id, screening_id, total_price, num_tickets
+        ) VALUES (?, ?, ?, ?, ?)`
+      );
+
+      const result = insertBookingStmt.run(
+        booking_reference,
+        user_id,
+        screening_id,
+        total_price,
+        num_tickets
+      );
+
+      // Logga om insert lyckades
+      console.log("Resultat av insert i bookings:", result);
+
+      // Hämta booking_id direkt från result
+      const booking_id = result.lastInsertRowid;
+
+      if (!booking_id) {
+        return reject(new Error("Failed to retrieve booking_id"));
+      }
+
+      console.log("Hämtade booking_id:", booking_id);
+
+      // Förbereder och kör infogningen av varje säte
+      const stmt = db.prepare(
+        `INSERT INTO booked_seats (booking_id, seat_number) VALUES (?, ?)`
+      );
+
+      // Kör frågan för varje bokat säte
+      for (const seat of booked_seats) {
+        stmt.run(booking_id, seat);
+      }
+
+      resolve({ booking_id });
+    } catch (err) {
+      console.error("Error in createBookingToDB:", err);
+      reject(err);
+    }
+  });
+};
+
 export const insertMovieToDB = () => {};

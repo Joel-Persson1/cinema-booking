@@ -1,13 +1,16 @@
 import { Form, Navigate, redirect, useLoaderData } from "react-router-dom";
-import { checkIfLoggedIn, getScreeningWithMovie } from "../services/MovieApi";
+import {
+  checkIfLoggedIn,
+  getScreeningWithMovie,
+  insertBooking,
+} from "../services/MovieApi";
 import { formatScreeningDate } from "../helpers/convertToDate";
 import { useEffect, useState } from "react";
 import SeatPicker from "../components/SeatPicker";
+import { createBookingNumber } from "../services/generateBookingNumber";
 
 function Cart() {
   const info = useLoaderData();
-
-  console.log(info);
 
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
@@ -95,12 +98,17 @@ function Cart() {
         <h3>Select number of tickets</h3>
 
         <input type="hidden" name="total_price" value={totalPrice} />
+        <input type="hidden" name="screening_id" value={info.screening_id} />
+        <input
+          type="hidden"
+          name="num_tickets"
+          value={adults + children + pensioner}
+        />
 
         <div>
           <p>Adult</p>
 
           <div>
-            <input type="hidden" name="adults" value={adults} />
             <button onClick={(e) => decrement(e, setAdults, adults)}>-</button>
             <span>{adults}</span>
             <button onClick={(e) => increment(e, setAdults, adults)}>+</button>
@@ -111,7 +119,6 @@ function Cart() {
           <p>child</p>
 
           <div>
-            <input type="hidden" name="children" value={children} />
             <button onClick={(e) => decrement(e, setChildren, children)}>
               -
             </button>
@@ -126,7 +133,6 @@ function Cart() {
           <p>Pensioner</p>
 
           <div>
-            <input type="hidden" name="pensioner" value={pensioner} />
             <button onClick={(e) => decrement(e, setPensioner, pensioner)}>
               -
             </button>
@@ -173,7 +179,15 @@ export async function action({ request }) {
   data.selectedSeats = JSON.parse(data.selectedSeats);
   if (isUserLoggedIn?.error) return redirect("/login");
   if (isUserLoggedIn?.success) {
-    console.log(data);
+    const bookingNumber = createBookingNumber();
+
+    data.booking_reference = bookingNumber;
+    data.user_id = isUserLoggedIn.user.id;
+    data.num_tickets = Number(data.num_tickets);
+    data.screening_id = Number(data.screening_id);
+    data.total_price = Number(data.total_price);
+
+    insertBooking(data);
   }
 }
 

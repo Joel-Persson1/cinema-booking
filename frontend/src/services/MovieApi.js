@@ -29,3 +29,15 @@ export async function checkIfLoggedIn() {
 
   return await response.json();
 }
+
+export async function insertBooking(bookingData) {
+  const response = await fetch(`${API_URL}api/booking/post`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json", 
+    },
+    body: JSON.stringify(bookingData),
+  });
+  return await response.json();
+}
