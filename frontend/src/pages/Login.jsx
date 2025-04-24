@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Form, Link, useActionData, useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 function Login() {
   const formMessage = useActionData();
@@ -14,31 +15,36 @@ function Login() {
   }, [formMessage, navigate]);
 
   return (
-    <div>
-      {formMessage?.error && <div>{formMessage.error}</div>}
+    <div className="login-container">
+      {formMessage?.error && <div className="error-message">{formMessage.error}</div>}
 
-      <Form method="POST">
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="email"
-          required
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-        />
-        <input type="submit" />
+      <h1 className="login-title">Login</h1>
+      <Form method="POST" className="login-form">
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="email"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button type="submit" className="submit-button">Login</button>
       </Form>
 
-      <p>
-        Don't have a account? <Link to="/signup">Signup</Link>
+      <p className="signup-link">
+        Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
     </div>
   );

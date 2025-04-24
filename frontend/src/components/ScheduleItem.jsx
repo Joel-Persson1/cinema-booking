@@ -11,10 +11,13 @@ function ScheduleItem({ data }) {
 
   return (
     <li>
-      <Link to={`/booking?screening_id=${screening_id}`}>
-        <h4>{start_time}</h4>
-        <p>{theater_name}</p>
-        <p>{`${available_seats} of ${theater_capacity}`}</p>
+      <Link 
+        to={`/booking?screening_id=${screening_id}`}
+        className="screening-button"
+      >
+        <div>{start_time}</div>
+        <div>{theater_name}</div>
+        <div>{`${available_seats} of ${theater_capacity}`}</div>
       </Link>
     </li>
   );
