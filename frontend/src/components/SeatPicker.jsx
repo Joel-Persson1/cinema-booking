@@ -11,13 +11,11 @@ function SeatPicker({
     if (selectedSeats.includes(seatId)) {
       const updated = selectedSeats.filter((seat) => seat !== seatId);
       setSelectedSeats(updated);
-
       return;
     }
 
     if (selectedSeats.length >= numTickets) return;
 
-    // const updated = [...selectedSeats, seatId];
     setSelectedSeats((selectedSeats) => [...selectedSeats, seatId]);
   }
 
@@ -25,6 +23,7 @@ function SeatPicker({
     <div className="seat-picker">
       {seatsPerRow.map((seatsInRow, rowIndex) => (
         <div key={rowIndex} className="seat-row">
+          <span className="row-number">{rowIndex + 1}</span>
           {Array.from({ length: seatsInRow }, (_, seatIndex) => {
             const seatId = `${rowIndex + 1}-${seatIndex + 1}`;
             const isBooked = bookedSeats.includes(seatId);
@@ -39,11 +38,12 @@ function SeatPicker({
                 disabled={isBooked}
                 className={className}
               >
-                {isBooked && `❌`}
-                {isSelected && `✔️`}
+                {isBooked && "×"}
+                {isSelected && "✓"}
               </button>
             );
           })}
+          <span className="row-number">{rowIndex + 1}</span>
         </div>
       ))}
     </div>

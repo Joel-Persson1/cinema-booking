@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { handleLogout } from "../helpers/handleLogout.js";
 import { useEffect, useState } from "react";
+import "../styles/Navbar.css";
 
 function Navbar() {
   const [user, setUser] = useState(null);

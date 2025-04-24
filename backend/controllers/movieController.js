@@ -54,5 +54,10 @@ export const getScreeningWithMovie_ = (req, res, next) => {
 };
 
 export const postMovie = (req, res, next) => {
-  const result = insertMovieToDB();
+  try {
+    const result = insertMovieToDB();
+    res.status(201).json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to add movies" });
+  }
 };

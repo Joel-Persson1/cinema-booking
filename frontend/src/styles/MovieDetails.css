@@ -1,0 +1,145 @@
+.movie-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rem 2rem 2rem 2rem;
+  background-color: #0e1131;
+  min-height: 100vh;
+}
+
+.movie-content {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.trailer-container {
+  flex: 2;
+  width: 100%;
+}
+
+.poster-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.poster-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movie-info-container {
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
+  order: 2;
+}
+
+.movie-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
+  order: 1;
+}
+
+.movie-plot {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-top: 2rem;
+  font-family: 'Roboto', sans-serif;
+  order: 3;
+}
+
+.screenings-title {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.screening-button {
+  background-color: #4CAF50; /* Ljusgrön färg */
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0.5rem;
+}
+
+.screening-button:hover {
+  background-color: #45a049; /* Mörkare grön vid hover */
+}
+
+/* Lägger till styling för att ta bort list markers */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.seats-status {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.seats-status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.seats-status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.seats-status-dot.available {
+  background-color: #4CAF50;
+}
+
+.seats-status-dot.few {
+  background-color: #FFD700;
+}
+
+.seats-status-dot.limited {
+  background-color: #FF9800;
+}
+
+.seats-status-dot.sold-out {
+  background-color: #F44336;
+} 
