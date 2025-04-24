@@ -27,13 +27,13 @@ function Cart() {
   // Format selected seats as "Row X Seat Y"
   const formatSelectedSeats = () => {
     if (selectedSeats.length === 0) return "";
-    
+
     // Convert string format to object
-    const seatObjects = selectedSeats.map(seatId => {
-      const [row, seat] = seatId.split('-').map(Number);
+    const seatObjects = selectedSeats.map((seatId) => {
+      const [row, seat] = seatId.split("-").map(Number);
       return { row, seat };
     });
-    
+
     // Sort seats
     const sortedSeats = seatObjects.sort((a, b) => {
       if (a.row === b.row) {
@@ -42,7 +42,9 @@ function Cart() {
       return a.row - b.row;
     });
 
-    return `Row ${sortedSeats[0].row} Seat ${sortedSeats.map(seat => seat.seat).join(", ")}`;
+    return `Row ${sortedSeats[0].row} Seat ${sortedSeats
+      .map((seat) => seat.seat)
+      .join(", ")}`;
   };
 
   function increment(e, set, value) {
@@ -113,9 +115,16 @@ function Cart() {
               <span className="ticket-price">155 kr/ticket</span>
             </div>
             <div className="ticket-controls">
-              <button onClick={(e) => decrement(e, setAdults, adults)} disabled={adults === 0}>-</button>
+              <button
+                onClick={(e) => decrement(e, setAdults, adults)}
+                disabled={adults === 0}
+              >
+                -
+              </button>
               <span>{adults}</span>
-              <button onClick={(e) => increment(e, setAdults, adults)}>+</button>
+              <button onClick={(e) => increment(e, setAdults, adults)}>
+                +
+              </button>
             </div>
           </div>
 
@@ -125,9 +134,16 @@ function Cart() {
               <span className="ticket-price">135 kr/ticket</span>
             </div>
             <div className="ticket-controls">
-              <button onClick={(e) => decrement(e, setStudents, students)} disabled={students === 0}>-</button>
+              <button
+                onClick={(e) => decrement(e, setStudents, students)}
+                disabled={students === 0}
+              >
+                -
+              </button>
               <span>{students}</span>
-              <button onClick={(e) => increment(e, setStudents, students)}>+</button>
+              <button onClick={(e) => increment(e, setStudents, students)}>
+                +
+              </button>
             </div>
           </div>
 
@@ -137,9 +153,16 @@ function Cart() {
               <span className="ticket-price">120 kr/ticket</span>
             </div>
             <div className="ticket-controls">
-              <button onClick={(e) => decrement(e, setChildren, children)} disabled={children === 0}>-</button>
+              <button
+                onClick={(e) => decrement(e, setChildren, children)}
+                disabled={children === 0}
+              >
+                -
+              </button>
               <span>{children}</span>
-              <button onClick={(e) => increment(e, setChildren, children)}>+</button>
+              <button onClick={(e) => increment(e, setChildren, children)}>
+                +
+              </button>
             </div>
           </div>
 
@@ -149,9 +172,16 @@ function Cart() {
               <span className="ticket-price">135 kr/ticket</span>
             </div>
             <div className="ticket-controls">
-              <button onClick={(e) => decrement(e, setPensioner, pensioner)} disabled={pensioner === 0}>-</button>
+              <button
+                onClick={(e) => decrement(e, setPensioner, pensioner)}
+                disabled={pensioner === 0}
+              >
+                -
+              </button>
               <span>{pensioner}</span>
-              <button onClick={(e) => increment(e, setPensioner, pensioner)}>+</button>
+              <button onClick={(e) => increment(e, setPensioner, pensioner)}>
+                +
+              </button>
             </div>
           </div>
         </div>
@@ -162,15 +192,26 @@ function Cart() {
 
           <Form method="POST">
             <input type="hidden" name="total_price" value={totalPrice} />
-            <input type="hidden" name="selectedSeats" value={JSON.stringify(selectedSeats)} />
-            <input type="hidden" name="num_tickets" value={adults+children+pensioner} />
-            <input type="hidden" name="screening_id" value={info.screening_id} />
-            
+            <input
+              type="hidden"
+              name="selectedSeats"
+              value={JSON.stringify(selectedSeats)}
+            />
+            <input
+              type="hidden"
+              name="num_tickets"
+              value={adults + children + pensioner}
+            />
+            <input
+              type="hidden"
+              name="screening_id"
+              value={info.screening_id}
+            />
 
             <SeatPicker
               seatsPerRow={info.seats_per_row}
               bookedSeats={info.bookedSeats}
-              numTickets={adults+children+pensioner}
+              numTickets={adults + children + pensioner}
               selectedSeats={selectedSeats}
               setSelectedSeats={setSelectedSeats}
             />
@@ -182,7 +223,11 @@ function Cart() {
                   <span>{formatSelectedSeats()}</span>
                   <span>{totalPrice} kr</span>
                 </div>
-                <button type="submit" className="submit-button" disabled={disabled}>
+                <button
+                  type="submit"
+                  className="submit-button"
+                  disabled={disabled}
+                >
                   Book Tickets
                 </button>
               </div>
@@ -204,13 +249,10 @@ export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   data.selectedSeats = JSON.parse(data.selectedSeats);
-  console.log(data);
 
   const isUserLoggedIn = await checkIfLoggedIn();
 
   console.log(isUserLoggedIn);
-
-  data.selectedSeats = JSON.parse(data.selectedSeats);
 
   if (isUserLoggedIn?.error) return redirect("/login");
 
