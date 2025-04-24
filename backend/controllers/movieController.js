@@ -6,6 +6,9 @@ import {
   getScheduleByIdFromDB,
   getScreeningWithMovieFromDB,
   createBookingToDB,
+  deleteMovieFromDB,
+  checkIfMovieExists,
+  getBookingFromDB,
 } from "../models/movieModel.js";
 
 // Detta är våra funktioner för våra endpoints. Fyll i med request och returnera ett response
@@ -15,6 +18,30 @@ export const getMovies = (req, res, next) => {
   const movies = getMoviesFromDB();
 
   res.status(200).json(movies);
+};
+
+export const deleteMovieById = (req, res) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ message: "The id is not a valid number" });
+  }
+
+  try {
+    const result = deleteMovieFromDB(id);
+
+    if (result.changes === 0) {
+      return res
+        .status(404)
+        .json({ message: "Movie not found or already deleted" });
+    }
+
+    return res.status(200).json({ message: "The movie was deleted" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", error: error.message });
+  }
 };
 
 export const getMovieById = (req, res, next) => {
@@ -55,8 +82,28 @@ export const getScreeningWithMovie_ = (req, res, next) => {
   res.status(200).json(screeningWithMovie);
 };
 
-export const postMovie = (req, res, next) => {
-  const result = insertMovieToDB();
+export const getBooking = (req, res) => {
+  const { bookingReference } = req.params;
+  console.log("Reference:", bookingReference);
+
+  try {
+    const response = getBookingFromDB(bookingReference);
+
+    console.log("Response:", response);
+
+    if (!response) {
+      return res
+        .status(404)
+        .json({ error: "Booking not found", status: false });
+    }
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error("Error in getBooking:", error);
+    return res
+      .status(500)
+      .json({ error: "Internal server error", status: false });
+  }
 };
 
 export const postBooking = async (req, res) => {
@@ -107,11 +154,46 @@ export const postBooking = async (req, res) => {
       booked_seats,
     });
 
-    res
-      .status(201)
-      .json({ message: "Booking successful", booking_id: result.booking_id });
+    res.status(201).json({
+      message: "Booking successful",
+      booking_id: result.booking_id,
+      status: true,
+    });
   } catch (error) {
     console.error("Error in postBooking", error);
-    res.status(500).json({ error: "Failed to create booking" });
+    res.status(500).json({ error: "Failed to create booking", status: false });
+  }
+};
+
+export const postMovie = async (req, res) => {
+  const movieData = req.body;
+
+  if (!movieData) return res.status(400).json({ message: "Movie is missing" });
+
+  // Kontrollera om filmen redan finns
+  const existingMovie = await checkIfMovieExists(movieData.imdb_id);
+
+  if (existingMovie) {
+    return res.status(400).json({ error: "Movie already exists" });
+  }
+
+  // Om filmen inte finns, gör en INSERT
+  try {
+    const result = insertMovieToDB(movieData);
+
+    if (result) {
+      return res.status(200).json({ message: "Movie added successfully" });
+    } else {
+      return res.status(500).json({ error: "Failed to add movie" });
+    }
+  } catch (error) {
+    // Hantera eventuella fel vid INSERT
+    if (error.code === "SQLITE_CONSTRAINT") {
+      return res
+        .status(400)
+        .json({ error: "Movie already exists in the database" });
+    }
+    console.error("Database error during insert:", error);
+    return res.status(500).json({ error: "Movie already exists" });
   }
 };

@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { handleLogout } from "../helpers/handleLogout.js";
 import { useEffect, useState } from "react";
+import { IoHomeOutline } from "react-icons/io5";
 
 function Navbar() {
   const [user, setUser] = useState(null);
@@ -31,6 +32,14 @@ function Navbar() {
 
   return (
     <nav>
+      <Link to="/">
+        <IoHomeOutline />
+      </Link>
+
+      <Link to="/">Bookings History</Link>
+
+      <Link to="/">Upcomming bookings</Link>
+
       {user ? (
         <button onClick={onLogoutClick}>Logout</button>
       ) : (

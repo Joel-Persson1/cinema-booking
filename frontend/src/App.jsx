@@ -9,6 +9,10 @@ import Cart, {
 } from "./pages/Cart";
 import Login, { action as loginAction } from "./pages/Login";
 import Signup, { action as signupAction } from "./pages/Signup";
+import NewMovie, { action as NewMovieAction } from "./pages/NewMovie";
+import BookingReference, {
+  loader as bookingReferenceLoader,
+} from "./pages/BookingReference";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +48,16 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
         action: signupAction,
+      },
+      {
+        path: "/newMovie",
+        element: <NewMovie />,
+        action: NewMovieAction,
+      },
+      {
+        path: "/booking/:bookingReference",
+        element: <BookingReference />,
+        loader: bookingReferenceLoader,
       },
     ],
   },

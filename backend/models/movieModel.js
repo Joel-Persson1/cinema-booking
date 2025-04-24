@@ -12,6 +12,11 @@ export const getMovieByIdFromDB = (id) => {
   return stmt.get(id);
 };
 
+export const deleteMovieFromDB = (id) => {
+  const stmt = db.prepare("DELETE FROM movies WHERE movie_id = ?");
+  return stmt.run(id);
+};
+
 export const getScheduleByIdFromDB = (id) => {
   const query = `
   SELECT 
@@ -88,6 +93,45 @@ export const getScreeningWithMovieFromDB = (id) => {
   return { ...screening, seats_per_row: parsedSeatsPerRow, bookedSeats };
 };
 
+export const getBookingFromDB = (bookingReference) => {
+  const bookingStmt = db.prepare(`
+    SELECT 
+      b.*, 
+      u.name AS user_name, 
+      s.start_time,
+      s.ticket_price,
+      m.title AS movie_title, 
+      m.poster_url,
+      t.name AS theater_name
+    FROM bookings b
+    JOIN users u ON b.user_id = u.id
+    JOIN screenings s ON b.screening_id = s.screening_id
+    JOIN movies m ON s.movie_id = m.movie_id
+    JOIN theaters t ON s.theater_id = t.theater_id
+    WHERE b.booking_reference = ?
+  `);
+
+  const booking = bookingStmt.get(bookingReference);
+
+  if (!booking) return booking;
+
+  const seatsStmt = db.prepare(`
+    SELECT seat_number 
+    FROM booked_seats 
+    WHERE booking_id = ? 
+    ORDER BY seat_number
+  `);
+
+  const bookedSeats = seatsStmt
+    .all(booking.booking_id)
+    .map((row) => row.seat_number);
+
+  return {
+    ...booking,
+    booked_seats: bookedSeats,
+  };
+};
+
 export const createBookingToDB = ({
   booking_reference,
   user_id,
@@ -145,4 +189,41 @@ export const createBookingToDB = ({
   });
 };
 
-export const insertMovieToDB = () => {};
+export const insertMovieToDB = (movieData) => {
+  const stmt = db.prepare(`
+    INSERT INTO movies (
+      imdb_id,
+      title,
+      year,
+      runtime,
+      genre,
+      director,
+      plot,
+      poster_url,
+      trailer_url
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  return stmt.run(
+    movieData.imdbID,
+    movieData.Title,
+    movieData.Year,
+    movieData.Runtime,
+    movieData.Genre,
+    movieData.Director,
+    movieData.Plot,
+    movieData.Poster,
+    movieData.trailer_url
+  );
+};
+
+export const checkIfMovieExists = async (id) => {
+  const stmt = db.prepare("SELECT * FROM movies WHERE imdb_id = ?");
+  try {
+    const result = await stmt.get(id);
+    return result;
+  } catch (error) {
+    console.error("Database error:", error);
+    return null;
+  }
+};

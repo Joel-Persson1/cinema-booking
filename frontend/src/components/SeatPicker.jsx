@@ -5,7 +5,9 @@ function SeatPicker({
   selectedSeats,
   setSelectedSeats,
 }) {
-  function handleSeatClick(seatId) {
+  function handleSeatClick(e, seatId) {
+    e.preventDefault();
+
     if (bookedSeats.includes(seatId)) return;
 
     if (selectedSeats.includes(seatId)) {
@@ -17,7 +19,6 @@ function SeatPicker({
 
     if (selectedSeats.length >= numTickets) return;
 
-    // const updated = [...selectedSeats, seatId];
     setSelectedSeats((selectedSeats) => [...selectedSeats, seatId]);
   }
 
@@ -35,7 +36,7 @@ function SeatPicker({
             return (
               <button
                 key={seatId}
-                onClick={() => handleSeatClick(seatId)}
+                onClick={(e) => handleSeatClick(e, seatId)}
                 disabled={isBooked}
                 className={className}
               >

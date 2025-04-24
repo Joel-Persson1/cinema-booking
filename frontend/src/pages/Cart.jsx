@@ -174,10 +174,15 @@ export async function loader({ request }) {
 export async function action({ request }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+
   const isUserLoggedIn = await checkIfLoggedIn();
+
   console.log(isUserLoggedIn);
+
   data.selectedSeats = JSON.parse(data.selectedSeats);
+
   if (isUserLoggedIn?.error) return redirect("/login");
+
   if (isUserLoggedIn?.success) {
     const bookingNumber = createBookingNumber();
 
@@ -187,7 +192,9 @@ export async function action({ request }) {
     data.screening_id = Number(data.screening_id);
     data.total_price = Number(data.total_price);
 
-    insertBooking(data);
+    const apiData = await insertBooking(data);
+
+    if (apiData.status) return redirect(`/booking/${data.booking_reference}`);
   }
 }
 
