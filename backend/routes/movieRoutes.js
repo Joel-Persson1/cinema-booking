@@ -6,6 +6,9 @@ import {
   postMovie,
   getMovieScheduleById,
   getScreeningWithMovie_,
+  postBooking,
+  deleteMovieById,
+  getBooking,
 } from "../controllers/movieController.js";
 
 const router = express.Router();
@@ -21,5 +24,13 @@ router.get("/api/schedule/:id", getMovieScheduleById);
 router.get("/api/booking/:id", getScreeningWithMovie_);
 
 router.post("/api/movies/post", postMovie);
+
+router.post("/api/booking/post", postBooking);
+
+router.get("/api/bookings/:bookingReference", getBooking);
+
+router.post("/api/movie/post", postMovie);
+
+router.delete("/api/movie/delete/:id", deleteMovieById);
 
 export default router;

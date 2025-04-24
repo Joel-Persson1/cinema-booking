@@ -8,8 +8,9 @@ import {
 import { encrypt } from "../utilities/encrypt.js";
 
 export const whoami = (req, res) => {
-  if (!req.session.user) return res.status(401).send("Not logged in");
-  res.json(req.session.user);
+  if (!req.session.user)
+    return res.status(401).json({ error: "Not logged in" });
+  return res.status(200).json({ success: "Logged in", user: req.session.user });
 };
 
 export const login = (req, res) => {

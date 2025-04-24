@@ -1,12 +1,18 @@
-import { Form, useLoaderData } from "react-router-dom";
-import { getScreeningWithMovie } from "../services/MovieApi";
+import { Form, Navigate, redirect, useLoaderData } from "react-router-dom";
+import {
+  checkIfLoggedIn,
+  getScreeningWithMovie,
+  insertBooking,
+} from "../services/MovieApi";
 import { formatScreeningDate } from "../helpers/convertToDate";
 import { useEffect, useState } from "react";
 import SeatPicker from "../components/SeatPicker";
 import "../styles/BookingPage.css";
+import { createBookingNumber } from "../services/generateBookingNumber";
 
 function Cart() {
   const info = useLoaderData();
+
   const [adults, setAdults] = useState(1);
   const [students, setStudents] = useState(0);
   const [children, setChildren] = useState(0);
@@ -94,7 +100,7 @@ function Cart() {
           <span>{info.start_time}</span>
           <span>{info.format}</span>
           <span>{info.language}</span>
-      </div>
+        </div>
       </div>
 
       <div className="booking-sections">
@@ -105,13 +111,13 @@ function Cart() {
             <div className="ticket-info">
               <span className="ticket-name">Regular</span>
               <span className="ticket-price">155 kr/ticket</span>
-      </div>
+            </div>
             <div className="ticket-controls">
               <button onClick={(e) => decrement(e, setAdults, adults)} disabled={adults === 0}>-</button>
-            <span>{adults}</span>
-            <button onClick={(e) => increment(e, setAdults, adults)}>+</button>
+              <span>{adults}</span>
+              <button onClick={(e) => increment(e, setAdults, adults)}>+</button>
+            </div>
           </div>
-        </div>
 
           <div className="ticket-type">
             <div className="ticket-info">
@@ -132,7 +138,7 @@ function Cart() {
             </div>
             <div className="ticket-controls">
               <button onClick={(e) => decrement(e, setChildren, children)} disabled={children === 0}>-</button>
-            <span>{children}</span>
+              <span>{children}</span>
               <button onClick={(e) => increment(e, setChildren, children)}>+</button>
             </div>
           </div>
@@ -141,10 +147,10 @@ function Cart() {
             <div className="ticket-info">
               <span className="ticket-name">Senior</span>
               <span className="ticket-price">135 kr/ticket</span>
-        </div>
+            </div>
             <div className="ticket-controls">
               <button onClick={(e) => decrement(e, setPensioner, pensioner)} disabled={pensioner === 0}>-</button>
-            <span>{pensioner}</span>
+              <span>{pensioner}</span>
               <button onClick={(e) => increment(e, setPensioner, pensioner)}>+</button>
             </div>
           </div>
@@ -157,18 +163,17 @@ function Cart() {
           <Form method="POST">
             <input type="hidden" name="total_price" value={totalPrice} />
             <input type="hidden" name="selectedSeats" value={JSON.stringify(selectedSeats)} />
-            <input type="hidden" name="adults" value={adults} />
-            <input type="hidden" name="students" value={students} />
-            <input type="hidden" name="children" value={children} />
-            <input type="hidden" name="pensioner" value={pensioner} />
+            <input type="hidden" name="num_tickets" value={adults+children+pensioner} />
+            <input type="hidden" name="screening_id" value={info.screening_id} />
+            
 
-        <SeatPicker
-          seatsPerRow={info.seats_per_row}
-          bookedSeats={info.bookedSeats}
-              numTickets={totalTickets}
-          selectedSeats={selectedSeats}
-          setSelectedSeats={setSelectedSeats}
-        />
+            <SeatPicker
+              seatsPerRow={info.seats_per_row}
+              bookedSeats={info.bookedSeats}
+              numTickets={adults+children+pensioner}
+              selectedSeats={selectedSeats}
+              setSelectedSeats={setSelectedSeats}
+            />
 
             {totalTickets > 0 && (
               <div className="submit-container">
@@ -182,7 +187,7 @@ function Cart() {
                 </button>
               </div>
             )}
-      </Form>
+          </Form>
         </div>
       </div>
     </div>
@@ -200,6 +205,28 @@ export async function action({ request }) {
   const data = Object.fromEntries(formData);
   data.selectedSeats = JSON.parse(data.selectedSeats);
   console.log(data);
+
+  const isUserLoggedIn = await checkIfLoggedIn();
+
+  console.log(isUserLoggedIn);
+
+  data.selectedSeats = JSON.parse(data.selectedSeats);
+
+  if (isUserLoggedIn?.error) return redirect("/login");
+
+  if (isUserLoggedIn?.success) {
+    const bookingNumber = createBookingNumber();
+
+    data.booking_reference = bookingNumber;
+    data.user_id = isUserLoggedIn.user.id;
+    data.num_tickets = Number(data.num_tickets);
+    data.screening_id = Number(data.screening_id);
+    data.total_price = Number(data.total_price);
+
+    const apiData = await insertBooking(data);
+
+    if (apiData.status) return redirect(`/booking/${data.booking_reference}`);
+  }
 }
 
 export default Cart;

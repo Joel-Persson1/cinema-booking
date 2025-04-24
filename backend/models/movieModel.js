@@ -12,6 +12,11 @@ export const getMovieByIdFromDB = (id) => {
   return stmt.get(id);
 };
 
+export const deleteMovieFromDB = (id) => {
+  const stmt = db.prepare("DELETE FROM movies WHERE movie_id = ?");
+  return stmt.run(id);
+};
+
 export const getScheduleByIdFromDB = (id) => {
   const query = `
   SELECT 
@@ -88,83 +93,137 @@ export const getScreeningWithMovieFromDB = (id) => {
   return { ...screening, seats_per_row: parsedSeatsPerRow, bookedSeats };
 };
 
-export const insertMovieToDB = () => {
-  const movies = [
-    {
-      title: "The Matrix",
-      year: 1999,
-      runtime: "136 min",
-      genre: "Sci-Fi, Action",
-      director: "Lana Wachowski, Lilly Wachowski",
-      plot: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-      poster_url: "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg",
-      trailer_url: "https://www.youtube.com/watch?v=vKQi3bBA1y8",
-      age_limit: "15",
-      imdb_id: "tt0133093"
-    },
-    {
-      title: "Inception",
-      year: 2010,
-      runtime: "148 min",
-      genre: "Sci-Fi, Action",
-      director: "Christopher Nolan",
-      plot: "A thief who steals corporate secrets through dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-      poster_url: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
-      trailer_url: "https://www.youtube.com/watch?v=YoHD9XEInc0",
-      age_limit: "12",
-      imdb_id: "tt1375666"
-    },
-    {
-      title: "The Dark Knight",
-      year: 2008,
-      runtime: "152 min",
-      genre: "Action, Crime, Drama",
-      director: "Christopher Nolan",
-      plot: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-      poster_url: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg",
-      trailer_url: "https://www.youtube.com/watch?v=EXeTwQWrcwY",
-      age_limit: "15",
-      imdb_id: "tt0468569"
-    },
-    {
-      title: "Pulp Fiction",
-      year: 1994,
-      runtime: "154 min",
-      genre: "Crime, Drama",
-      director: "Quentin Tarantino",
-      plot: "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-      poster_url: "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
-      trailer_url: "https://www.youtube.com/watch?v=s7EdQ4FqbhY",
-      age_limit: "18",
-      imdb_id: "tt0110912"
-    },
-    {
-      title: "The Shawshank Redemption",
-      year: 1994,
-      runtime: "142 min",
-      genre: "Drama",
-      director: "Frank Darabont",
-      plot: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-      poster_url: "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg",
-      trailer_url: "https://www.youtube.com/watch?v=6hB3S9bIaco",
-      age_limit: "15",
-      imdb_id: "tt0111161"
-    }
-  ];
-
-  const stmt = db.prepare(`
-    INSERT INTO movies (
-      title, year, runtime, genre, director, plot, 
-      poster_url, trailer_url, age_limit, imdb_id
-    ) VALUES (
-      @title, @year, @runtime, @genre, @director, @plot,
-      @poster_url, @trailer_url, @age_limit, @imdb_id
-    )
+export const getBookingFromDB = (bookingReference) => {
+  const bookingStmt = db.prepare(`
+    SELECT 
+      b.*, 
+      u.name AS user_name, 
+      s.start_time,
+      s.ticket_price,
+      m.title AS movie_title, 
+      m.poster_url,
+      t.name AS theater_name
+    FROM bookings b
+    JOIN users u ON b.user_id = u.id
+    JOIN screenings s ON b.screening_id = s.screening_id
+    JOIN movies m ON s.movie_id = m.movie_id
+    JOIN theaters t ON s.theater_id = t.theater_id
+    WHERE b.booking_reference = ?
   `);
 
-  movies.forEach(movie => {
-    stmt.run(movie);
-  });
+  const booking = bookingStmt.get(bookingReference);
 
-  return { success: true, message: "Movies added successfully" };
+  if (!booking) return booking;
+
+  const seatsStmt = db.prepare(`
+    SELECT seat_number 
+    FROM booked_seats 
+    WHERE booking_id = ? 
+    ORDER BY seat_number
+  `);
+
+  const bookedSeats = seatsStmt
+    .all(booking.booking_id)
+    .map((row) => row.seat_number);
+
+  return {
+    ...booking,
+    booked_seats: bookedSeats,
+  };
+};
+
+export const createBookingToDB = ({
+  booking_reference,
+  user_id,
+  screening_id,
+  total_price,
+  num_tickets,
+  booked_seats,
+}) => {
+  return new Promise((resolve, reject) => {
+    try {
+      console.log("Startar insättning i bookings-tabellen");
+
+      // Infogar bokning
+      const insertBookingStmt = db.prepare(
+        `INSERT INTO bookings (
+          booking_reference, user_id, screening_id, total_price, num_tickets
+        ) VALUES (?, ?, ?, ?, ?)`
+      );
+
+      const result = insertBookingStmt.run(
+        booking_reference,
+        user_id,
+        screening_id,
+        total_price,
+        num_tickets
+      );
+
+      // Logga om insert lyckades
+      console.log("Resultat av insert i bookings:", result);
+
+      // Hämta booking_id direkt från result
+      const booking_id = result.lastInsertRowid;
+
+      if (!booking_id) {
+        return reject(new Error("Failed to retrieve booking_id"));
+      }
+
+      console.log("Hämtade booking_id:", booking_id);
+
+      // Förbereder och kör infogningen av varje säte
+      const stmt = db.prepare(
+        `INSERT INTO booked_seats (booking_id, seat_number) VALUES (?, ?)`
+      );
+
+      // Kör frågan för varje bokat säte
+      for (const seat of booked_seats) {
+        stmt.run(booking_id, seat);
+      }
+
+      resolve({ booking_id });
+    } catch (err) {
+      console.error("Error in createBookingToDB:", err);
+      reject(err);
+    }
+  });
+};
+
+export const insertMovieToDB = (movieData) => {
+  const stmt = db.prepare(`
+    INSERT INTO movies (
+      imdb_id,
+      title,
+      year,
+      runtime,
+      genre,
+      director,
+      plot,
+      poster_url,
+      trailer_url
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  return stmt.run(
+    movieData.imdbID,
+    movieData.Title,
+    movieData.Year,
+    movieData.Runtime,
+    movieData.Genre,
+    movieData.Director,
+    movieData.Plot,
+    movieData.Poster,
+    movieData.trailer_url
+  );
+};
+
+export const checkIfMovieExists = async (id) => {
+  const stmt = db.prepare("SELECT * FROM movies WHERE imdb_id = ?");
+  try {
+    const result = await stmt.get(id);
+    return result;
+  } catch (error) {
+    console.error("Database error:", error);
+    return null;
+  }
 };
