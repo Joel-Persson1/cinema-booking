@@ -1,6 +1,7 @@
 import { Form, useActionData, useNavigate } from "react-router-dom";
 import { fetchMovieByTitle, insertMovie } from "../services/MovieApi";
 import { useEffect } from "react";
+import "../styles/NewMovie.css";
 
 function NewMovie() {
   const formMessage = useActionData();
@@ -13,22 +14,39 @@ function NewMovie() {
   }, [formMessage, navigate]);
 
   return (
-    <Form method="POST">
-      {formMessage?.error && <p>{formMessage.error}</p>}
+    <div className="new-movie-container">
+      <Form method="POST" className="new-movie-form">
+        <h1>Add New Movie</h1>
+        
+        {formMessage?.error && <p className="error-message">{formMessage.error}</p>}
 
-      <label htmlFor="title">Movie Title</label>
-      <input id="title" name="title" type="text" placeholder="title" required />
+        <div className="form-group">
+          <label htmlFor="title">Movie Title</label>
+          <input 
+            id="title" 
+            name="title" 
+            type="text" 
+            placeholder="Enter movie title" 
+            required 
+          />
+        </div>
 
-      <label htmlFor="trailer_url">Trailer URL</label>
-      <input
-        id="trailer_url"
-        name="trailer_url"
-        type="text"
-        placeholder="Trailer URL"
-        required
-      />
-      <input type="submit" />
-    </Form>
+        <div className="form-group">
+          <label htmlFor="trailer_url">Trailer URL</label>
+          <input
+            id="trailer_url"
+            name="trailer_url"
+            type="text"
+            placeholder="Enter trailer URL"
+            required
+          />
+        </div>
+
+        <button type="submit" className="submit-button">
+          <span>Add Movie</span>
+        </button>
+      </Form>
+    </div>
   );
 }
 

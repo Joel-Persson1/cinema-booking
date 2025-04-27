@@ -3,6 +3,8 @@ nav {
   justify-content: flex-end;
   padding: 1rem;
   background-color: #1f2937;
+  gap: 1rem;
+  align-items: center;
 }
 
 nav button {
@@ -17,5 +19,54 @@ nav button {
 }
 
 nav button:hover {
+  background-color: #1d4ed8;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+nav a:hover {
+  background-color: #374151;
+}
+
+nav a svg {
+  font-size: 1.5rem;
+}
+
+.delete-button {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.delete-button:hover {
+  background-color: #b91c1c;
+}
+
+.add-movie-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  margin: 1rem 0;
+  margin-left: 2rem;
+}
+
+.add-movie-button:hover {
   background-color: #1d4ed8;
 } 

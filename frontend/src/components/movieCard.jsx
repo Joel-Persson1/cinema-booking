@@ -26,7 +26,7 @@ function MovieCard({ movie }) {
           <p className="genre">{movie.genre}</p>
         </div>
       </Link>
-      <button onClick={handleDeleteMovie}>Delete movie</button>
+      <button onClick={handleDeleteMovie} className="delete-button">Delete movie</button>
     </div>
   );
 }
