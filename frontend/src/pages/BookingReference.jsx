@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import { getBookingReference } from "../services/MovieApi";
+import "../styles/BookingReference.css";
 
 function BookingReference() {
   const booking = useLoaderData();
@@ -17,27 +18,50 @@ function BookingReference() {
   } = booking;
 
   return (
-    <section>
-      <h2>Booking #{booking_reference}</h2>
-      <p>for {user_name}</p>
-      <h3>Movie: {movie_title}</h3>
-      <img src={poster_url} alt="Movie poster" />
+    <section className="booking-container">
+      <div className="booking-header">
+        <h2>Booking #{booking_reference}</h2>
+        <p>for {user_name}</p>
+      </div>
 
-      <p>Theather: {theater_name}</p>
-      <p>Starting time: {start_time}</p>
+      <div className="booking-content">
+        <div className="movie-poster">
+          <img src={poster_url} alt={`${movie_title} poster`} />
+        </div>
 
-      <p>Number of tickets: {num_tickets}</p>
-      <p>Total Price: {total_price}</p>
+        <div className="booking-details">
+          <h3>{movie_title}</h3>
+          
+          <div className="booking-info">
+            <p>
+              <strong>Theater:</strong>
+              {theater_name}
+            </p>
+            <p>
+              <strong>Start Time:</strong>
+              {start_time}
+            </p>
+            <p>
+              <strong>Tickets:</strong>
+              {num_tickets}
+            </p>
+            <p>
+              <strong>Total Price:</strong>
+              {total_price} kr
+            </p>
+          </div>
 
-      <div>
-        <h3>Bokade platser:</h3>
-        <ul>
-          {booked_seats.map((seat, index) => (
-            <li key={index}>{`Rad ${seat.split("-")[0]}, Plats ${
-              seat.split("-")[1]
-            }`}</li>
-          ))}
-        </ul>
+          <div className="seats-section">
+            <h3>Booked Seats</h3>
+            <ul className="seats-list">
+              {booked_seats.map((seat, index) => (
+                <li key={index}>
+                  Row {seat.split("-")[0]}, Seat {seat.split("-")[1]}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );
