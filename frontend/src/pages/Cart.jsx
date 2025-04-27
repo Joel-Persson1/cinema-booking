@@ -14,13 +14,12 @@ function Cart() {
   const info = useLoaderData();
 
   const [adults, setAdults] = useState(1);
-  const [students, setStudents] = useState(0);
   const [children, setChildren] = useState(0);
   const [pensioner, setPensioner] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
-  const totalTickets = adults + students + children + pensioner;
+  const totalTickets = adults + children + pensioner;
   const disabled = selectedSeats.length < totalTickets;
   const date = formatScreeningDate(info.date);
 
@@ -66,11 +65,6 @@ function Cart() {
       sum.push(adultPrice);
     }
 
-    if (students >= 1) {
-      const studentPrice = students * 135;
-      sum.push(studentPrice);
-    }
-
     if (children >= 1) {
       const childrenPrice = children * 120;
       sum.push(childrenPrice);
@@ -87,7 +81,7 @@ function Cart() {
   useEffect(() => {
     const sum = calculatePrice();
     setTotalPrice(sum);
-  }, [children, adults, students, pensioner]);
+  }, [children, adults, pensioner]);
 
   return (
     <div className="booking-page">
@@ -111,7 +105,7 @@ function Cart() {
 
           <div className="ticket-type">
             <div className="ticket-info">
-              <span className="ticket-name">Regular</span>
+              <span className="ticket-name">Adult</span>
               <span className="ticket-price">155 kr/ticket</span>
             </div>
             <div className="ticket-controls">
@@ -123,25 +117,6 @@ function Cart() {
               </button>
               <span>{adults}</span>
               <button onClick={(e) => increment(e, setAdults, adults)}>
-                +
-              </button>
-            </div>
-          </div>
-
-          <div className="ticket-type">
-            <div className="ticket-info">
-              <span className="ticket-name">Student</span>
-              <span className="ticket-price">135 kr/ticket</span>
-            </div>
-            <div className="ticket-controls">
-              <button
-                onClick={(e) => decrement(e, setStudents, students)}
-                disabled={students === 0}
-              >
-                -
-              </button>
-              <span>{students}</span>
-              <button onClick={(e) => increment(e, setStudents, students)}>
                 +
               </button>
             </div>
