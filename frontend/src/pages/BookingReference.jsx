@@ -7,7 +7,6 @@ function BookingReference() {
   const {
     booked_seats,
     booking_reference,
-
     num_tickets,
     total_price,
     movie_title,
