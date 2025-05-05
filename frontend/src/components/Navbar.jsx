@@ -37,9 +37,9 @@ function Navbar() {
         <IoHomeOutline />
       </Link>
 
-      <Link to="/">Bookings History</Link>
+      <Link to="/bookingHistory">Bookings History</Link>
 
-      <Link to="/">Upcomming bookings</Link>
+      <Link to="/upcommingBookings">Upcomming bookings</Link>
 
       {user ? (
         <button onClick={onLogoutClick}>Logout</button>

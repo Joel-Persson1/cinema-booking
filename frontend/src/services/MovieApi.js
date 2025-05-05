@@ -7,6 +7,11 @@ export async function getMovies() {
   return await response.json();
 }
 
+export async function getUpcommingBookings(userId) {
+  const response = await fetch(`${API_URL}api/upcommingBookings/${userId}`);
+  return await response.json();
+}
+
 export async function getTheaters() {
   const response = await fetch(`${API_URL}api/theaters`);
   return await response.json();

@@ -7,6 +7,7 @@ import {
 import { getMovies } from "../services/MovieApi";
 import "../styles/MovieGrid.css";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 import MovieCard from "../components/movieCard";
 
@@ -16,7 +17,7 @@ function Home() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [welcomeMessage, setWelcomeMessage] = useState(null);
+  // const [welcomeMessage, setWelcomeMessage] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,20 +40,12 @@ function Home() {
 
   useEffect(() => {
     if (location.state?.message) {
-      setWelcomeMessage(location.state.message);
-
-      const timer = setTimeout(() => {
-        setWelcomeMessage(null);
-      }, 3000);
-
-      return () => clearTimeout(timer);
+      toast.success(location.state.message);
     }
   }, [location.state]);
 
   return (
     <main>
-      {welcomeMessage && <div>{welcomeMessage}</div>}
-
       {user?.role === "admin" ? (
         <>
           <button
