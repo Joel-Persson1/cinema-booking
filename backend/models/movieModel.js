@@ -7,6 +7,11 @@ export const getMoviesFromDB = () => {
   return stmt.all();
 };
 
+export const getTheatersFromDB = () => {
+  const stmt = db.prepare(`SELECT * FROM theaters`);
+  return stmt.all();
+};
+
 export const getMovieByIdFromDB = (id) => {
   const stmt = db.prepare("SELECT * FROM movies WHERE movie_id=?");
   return stmt.get(id);
@@ -187,6 +192,24 @@ export const createBookingToDB = ({
       reject(err);
     }
   });
+};
+
+export const insertScreeningToDB = (screeningData) => {
+  const stmt = db.prepare(`
+    INSERT INTO screenings (
+    movie_id,
+    theater_id,
+    start_time,
+    date
+    ) VALUES (?, ?, ?, ?)
+    `);
+
+  return stmt.run(
+    screeningData.movie_id,
+    screeningData.theater_id,
+    screeningData.start_time,
+    screeningData.date
+  );
 };
 
 export const insertMovieToDB = (movieData) => {

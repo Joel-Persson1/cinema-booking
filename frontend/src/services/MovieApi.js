@@ -7,6 +7,23 @@ export async function getMovies() {
   return await response.json();
 }
 
+export async function getTheaters() {
+  const response = await fetch(`${API_URL}api/theaters`);
+  return await response.json();
+}
+
+export async function insertScreening(data) {
+  const response = await fetch(`${API_URL}api/insert/screenings`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return await response.json();
+}
+
 export async function getBookingReference(bookingReference) {
   const res = await fetch(`${API_URL}api/bookings/${bookingReference}`);
 
