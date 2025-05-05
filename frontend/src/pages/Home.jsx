@@ -55,7 +55,18 @@ function Home() {
 
       {user?.role === "admin" ? (
         <>
-          <button onClick={() => navigate("/newMovie")} className="add-movie-button">Add new movie</button>
+          <button
+            onClick={() => navigate("/newMovie")}
+            className="add-movie-button"
+          >
+            Add new movie
+          </button>
+          <button
+            onClick={() => navigate("/newScreening")}
+            className="add-movie-button"
+          >
+            Add Screening
+          </button>
           <section className="movie-grid">
             {data.map((movie) => (
               <MovieCard movie={movie} key={movie.movie_id} />

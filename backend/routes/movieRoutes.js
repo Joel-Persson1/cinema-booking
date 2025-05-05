@@ -9,6 +9,8 @@ import {
   postBooking,
   deleteMovieById,
   getBooking,
+  getTheaters,
+  postScreening,
 } from "../controllers/movieController.js";
 
 const router = express.Router();
@@ -17,11 +19,15 @@ const router = express.Router();
 
 router.get("/api/movies", getMovies);
 
+router.get("/api/theaters", getTheaters);
+
 router.get("/api/movies/:id", getMovieById);
 
 router.get("/api/schedule/:id", getMovieScheduleById);
 
 router.get("/api/booking/:id", getScreeningWithMovie_);
+
+router.post("/api/insert/screenings", postScreening);
 
 router.post("/api/movies/post", postMovie);
 

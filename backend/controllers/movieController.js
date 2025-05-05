@@ -9,6 +9,8 @@ import {
   deleteMovieFromDB,
   checkIfMovieExists,
   getBookingFromDB,
+  getTheatersFromDB,
+  insertScreeningToDB,
 } from "../models/movieModel.js";
 
 // Detta är våra funktioner för våra endpoints. Fyll i med request och returnera ett response
@@ -18,6 +20,12 @@ export const getMovies = (req, res, next) => {
   const movies = getMoviesFromDB();
 
   res.status(200).json(movies);
+};
+
+export const getTheaters = (req, res, next) => {
+  const theaters = getTheatersFromDB();
+
+  return res.status(200).json(theaters);
 };
 
 export const deleteMovieById = (req, res) => {
@@ -162,6 +170,21 @@ export const postBooking = async (req, res) => {
   } catch (error) {
     console.error("Error in postBooking", error);
     res.status(500).json({ error: "Failed to create booking", status: false });
+  }
+};
+
+export const postScreening = async (req, res) => {
+  const screeningData = req.body;
+
+  if (!screeningData)
+    return res.status(404).json({ error: "information not found" });
+
+  const result = insertScreeningToDB(screeningData);
+
+  if (result) {
+    return res.status(200).json({ message: "screening added successfully" });
+  } else {
+    return res.status(400).json({ error: "Failed to add screening" });
   }
 };
 
