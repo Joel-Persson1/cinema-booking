@@ -10,6 +10,9 @@ import Cart, {
 import Login, { action as loginAction } from "./pages/Login";
 import Signup, { action as signupAction } from "./pages/Signup";
 import NewMovie, { action as NewMovieAction } from "./pages/NewMovie";
+import NewScreening, {
+  action as newScreeningAction,
+} from "./pages/NewScreening";
 import BookingReference, {
   loader as bookingReferenceLoader,
 } from "./pages/BookingReference";
@@ -58,6 +61,11 @@ const router = createBrowserRouter([
         path: "/booking/:bookingReference",
         element: <BookingReference />,
         loader: bookingReferenceLoader,
+      },
+      {
+        path: "/newScreening",
+        element: <NewScreening />,
+        action: newScreeningAction,
       },
     ],
   },
