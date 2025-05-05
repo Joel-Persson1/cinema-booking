@@ -11,6 +11,7 @@ import {
   getBooking,
   getTheaters,
   postScreening,
+  getUpcommingBookings_,
 } from "../controllers/movieController.js";
 
 const router = express.Router();
@@ -18,6 +19,8 @@ const router = express.Router();
 // Här är en layout för våra routes i backend, fyll i med en funktion i dessa endpoints
 
 router.get("/api/movies", getMovies);
+
+router.get("/api/upcommingBookings/:id", getUpcommingBookings_);
 
 router.get("/api/theaters", getTheaters);
 

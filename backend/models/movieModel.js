@@ -7,6 +7,44 @@ export const getMoviesFromDB = () => {
   return stmt.all();
 };
 
+export const getupcommingBookingsFromDB = (userId) => {
+  const stmt = db.prepare(`
+  SELECT 
+  bookings.booking_id,
+  bookings.booking_reference,
+  bookings.booking_time,
+  bookings.total_price,
+  bookings.num_tickets,
+
+  screenings.screening_id,
+  screenings.date AS screening_date,
+  screenings.start_time AS screening_start_time,
+  screenings.ticket_price,
+
+  movies.movie_id,
+  movies.title,
+  movies.year,
+  movies.poster_url,
+  movies.runtime,
+  movies.genre,
+
+  theaters.theater_id,
+  theaters.name AS theater_name,
+
+  GROUP_CONCAT(booked_seats.seat_number) AS seats
+
+FROM bookings
+JOIN screenings ON bookings.screening_id = screenings.screening_id
+JOIN movies ON screenings.movie_id = movies.movie_id
+JOIN theaters ON screenings.theater_id = theaters.theater_id
+LEFT JOIN booked_seats ON bookings.booking_id = booked_seats.booking_id
+
+WHERE bookings.user_id = ?
+GROUP BY bookings.booking_id
+ORDER BY screenings.date ASC, screenings.start_time ASC`);
+  return stmt.all(userId);
+};
+
 export const getTheatersFromDB = () => {
   const stmt = db.prepare(`SELECT * FROM theaters`);
   return stmt.all();
@@ -26,6 +64,7 @@ export const getScheduleByIdFromDB = (id) => {
   const query = `
   SELECT 
   s.screening_id,
+  s.date,
   s.start_time,
   s.ticket_price,
   t.name AS theater_name,

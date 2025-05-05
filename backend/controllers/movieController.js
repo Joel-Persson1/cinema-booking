@@ -11,6 +11,7 @@ import {
   getBookingFromDB,
   getTheatersFromDB,
   insertScreeningToDB,
+  getupcommingBookingsFromDB,
 } from "../models/movieModel.js";
 
 // Detta är våra funktioner för våra endpoints. Fyll i med request och returnera ett response
@@ -20,6 +21,18 @@ export const getMovies = (req, res, next) => {
   const movies = getMoviesFromDB();
 
   res.status(200).json(movies);
+};
+
+export const getUpcommingBookings_ = (req, res) => {
+  const userId = Number(req.params.id);
+
+  const upcommingBookings = getupcommingBookingsFromDB(userId);
+
+  if (upcommingBookings.length === 0) {
+    return res.status(404).json({ error: "You have no bookings" });
+  }
+
+  return res.status(200).json(upcommingBookings);
 };
 
 export const getTheaters = (req, res, next) => {

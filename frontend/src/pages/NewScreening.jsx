@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Form } from "react-router-dom";
 import { getMovies, getTheaters, insertScreening } from "../services/MovieApi";
 
@@ -96,9 +97,9 @@ export async function action({ request }) {
 
   const res = await insertScreening(data);
 
-  if (res.error) console.log(res.error);
+  if (res.error) toast.error(res.error);
 
-  if (res.message) console.log(res.message);
+  if (res.message) toast.success(res.message);
 }
 
 export default NewScreening;

@@ -16,6 +16,12 @@ import NewScreening, {
 import BookingReference, {
   loader as bookingReferenceLoader,
 } from "./pages/BookingReference";
+import UpcommingBookings, {
+  loader as upCommingBookingsLoader,
+} from "./pages/UpcommingBookings";
+import BookingHistory, {
+  loader as bookingHistoryLoader,
+} from "./pages/BookingHistory";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +72,16 @@ const router = createBrowserRouter([
         path: "/newScreening",
         element: <NewScreening />,
         action: newScreeningAction,
+      },
+      {
+        path: "/upcommingBookings",
+        element: <UpcommingBookings />,
+        loader: upCommingBookingsLoader,
+      },
+      {
+        path: "/bookingHistory",
+        element: <BookingHistory />,
+        loader: bookingHistoryLoader,
       },
     ],
   },
