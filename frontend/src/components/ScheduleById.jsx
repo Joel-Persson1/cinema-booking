@@ -8,8 +8,6 @@ export default function ScheduleById({ schedule }) {
 
   return (
     <div>
-      <h2 className="screenings-title">Screenings Today</h2>
-      
       <div className="seats-status">
         <div className="seats-status-item">
           <div className="seats-status-dot available"></div>
@@ -32,8 +30,8 @@ export default function ScheduleById({ schedule }) {
       <ul>
         {schedule.map((screening) => (
           <ScheduleItem key={screening.screening_id} data={screening} />
-      ))}
-    </ul>
+        ))}
+      </ul>
     </div>
   );
 }

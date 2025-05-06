@@ -118,7 +118,7 @@ export default function MovieDetails() {
       </div>
 
       <div className="schedule-container">
-        <h2>Available Screenings</h2>
+        <h2 className="screenings-title">Available Screenings</h2>
         <div className="date-buttons">
           {uniqueDates.map((date) => (
             <button
