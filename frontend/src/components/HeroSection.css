@@ -1,0 +1,205 @@
+.hero-section {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+}
+.hero-main {
+  flex: 2;
+  position: relative;
+  background: #181b23;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.hero-main img {
+  width: 100%;
+  height: 550px;
+  object-fit: cover;
+  object-position: center 70%;
+}
+.hero-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2rem;
+  background: linear-gradient(0deg, #181b23 80%, transparent);
+  color: white;
+  width: 100%;
+}
+.hero-btn {
+  background: #2563eb;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 1rem;
+  display: inline-block;
+}
+.hero-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.hero-card {
+  background: #23263a;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  min-height: 180px;
+  height: 180px;
+}
+.hero-card img {
+  width: 220px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.hero-card h2 {
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem 0;
+}
+.hero-card p {
+  color: #b3b3b3;
+  margin: 0;
+  font-size: 0.95rem;
+}
+.hero-card.avatar-card {
+  background: linear-gradient(135deg, #23263a 60%, #1e2746 100%);
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);
+  border: 1.5px solid #2e3a5a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  height: 220px;
+  padding: 1.5rem 1rem 1rem 1rem;
+}
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  max-width: 420px;
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 0.5rem auto;
+  border-radius: 12px;
+  background: #181b23;
+  box-shadow: 0 0 16px 2px #00cfff55, 0 2px 8px 0 #0008;
+  border: 2.5px solid #00cfff;
+}
+.avatar-title {
+  font-size: 1.7rem;
+  color: #fff;
+  margin: 0.5rem 0 0.3rem 0;
+  text-align: center;
+  letter-spacing: 0.02em;
+  font-weight: 800;
+  text-shadow: 0 2px 8px #000a;
+}
+.avatar-subtitle {
+  font-size: 1.18rem;
+  color: #00cfff;
+  margin: 0;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 4px #000a;
+}
+.hero-card.avengers-card {
+  background: linear-gradient(135deg, #23263a 60%, #2a1e46 100%);
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);
+  border: 1.5px solid #2e3a5a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  height: 220px;
+  padding: 1.5rem 1rem 1rem 1rem;
+}
+.avengers-img {
+  width: 100%;
+  height: 100%;
+  max-width: 420px;
+  max-height: 160px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 0.5rem auto;
+  border-radius: 12px;
+  background: #181b23;
+  box-shadow: 0 0 16px 2px #ffb30055, 0 2px 8px 0 #0008;
+  border: 2.5px solid #ffb300;
+}
+.avengers-title {
+  font-size: 1.7rem;
+  color: #fff;
+  margin: 0.5rem 0 0.3rem 0;
+  text-align: center;
+  letter-spacing: 0.02em;
+  font-weight: 800;
+  text-shadow: 0 2px 8px #000a;
+}
+.avengers-subtitle {
+  font-size: 1.18rem;
+  color: #ffb300;
+  margin: 0;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 4px #000a;
+}
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 98vw;
+  }
+  .hero-main img {
+    height: 320px;
+    object-position: center 80%;
+  }
+  .hero-side {
+    flex-direction: row;
+    gap: 1rem;
+  }
+  .hero-card {
+    min-height: 120px;
+    height: 120px;
+  }
+  .hero-card img {
+    width: 160px;
+    height: 110px;
+  }
+  .hero-card.avatar-card {
+    min-height: 140px;
+    height: 140px;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+  .avatar-img {
+    max-width: 320px;
+    max-height: 110px;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-card.avengers-card {
+    min-height: 140px;
+    height: 140px;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+  .avengers-img {
+    max-width: 320px;
+    max-height: 110px;
+    width: 100%;
+    height: 100%;
+  }
+} 

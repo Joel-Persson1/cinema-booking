@@ -7,6 +7,7 @@ import {
 import { getMovies } from "../services/MovieApi";
 import "../styles/MovieGrid.css";
 import { useEffect, useState } from "react";
+import HeroSection from "../components/HeroSection";
 
 import MovieCard from "../components/movieCard";
 
@@ -51,6 +52,7 @@ function Home() {
 
   return (
     <main>
+      <HeroSection />
       {welcomeMessage && <div>{welcomeMessage}</div>}
 
       {user?.role === "admin" ? (
