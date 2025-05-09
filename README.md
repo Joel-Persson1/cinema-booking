@@ -1,87 +1,97 @@
-# Teaterbokningssystem
+# Bio-System
 
-Detta är ett teaterbokningssystem med en React-frontend och Node.js-backend.
+Ett fullstack-webbapplikation för biografhantering.
 
-## Förutsättningar
+## 🚀 Funktioner
 
-- Node.js (version 18 eller senare)
+- Hantering av filmer och visningar
+- Användarhantering
+- Bokningssystem
+
+## 🛠️ Teknisk Stack
+
+### Frontend
+
+- React
+- Vite
+- Moderna UI-komponenter
+
+### Backend
+
+- Node.js
+- Express
+- Sqlite
+
+## 📋 Förutsättningar
+
+- Node.js (version 18 eller högre)
 - npm (kommer med Node.js)
+- Git
 
-## Installation
+## 🚀 Installation och Start
 
-1. Klona projektet:
+### Backend
+
+1. Navigera till backend-mappen:
+
 ```bash
-Ladda ner projekt från github och lägg in i vs code
+cd backend
 ```
 
-2. Installera backend-beroenden i backend terminalen:
+2. Installera beroenden:
+
 ```bash
-cd backend, tryck enter. 
-npm install, tryck enter
+npm install
 ```
 
-3. Installera frontend-beroenden i frontend terminalen:
+3. Starta servern:
+
 ```bash
-cd frontend, tryck enter
-npm install, tryck enter
+nodemon server.js
 ```
 
-## Starta projektet
+### Frontend
 
-### Starta backend-servern
+1. Navigera till frontend-mappen:
 
-1. Öppna en by terminal och navigera till backend-mappen:
 ```bash
-cd backend, tryck enter.
-npm start, tryck enter.
+cd frontend
 ```
 
-Backend-servern kommer att starta på `http://localhost:3000`
+2. Installera beroenden:
 
-### Starta frontend-servern
-
-1. Öppna en ny terminal och navigera till frontend-mappen:
 ```bash
-cd frontend, tryck enter.
-npm run dev, tryck enter.
+npm install
 ```
 
-Frontend-servern kommer att starta på `http://localhost:5173` (eller en annan port om 5173 är upptagen)
+3. Starta utvecklingsservern:
 
-## Utveckling med Nodemon
-
-För att underlätta utvecklingen av backend-servern kan du använda nodemon, som automatiskt startar om servern när du gör ändringar i koden.
-
-1. Installera nodemon globalt (om du inte redan har det):
 ```bash
-npm install -g nodemon
+npm run dev
 ```
 
-2. Starta backend-servern med nodemon genom att gp till backend terminlen:
-```bash
-cd backend, tryck enter. 
-nodemon server.js, tryck enter. 
+## 🔧 Miljövariabler
+
+### Frontend
+
+Skapa en `.env` fil i frontend-mappen med följande variabler:
+
+```
+VITE_API_URL=http://localhost:5000
 ```
 
-Nu kommer servern automatiskt att starta om när du sparar ändringar i backend-filerna.
+## 📁 Projektstruktur
 
-## Användning
-
-1. Öppna din webbläsare och gå till `http://localhost:5173` (eller den port som visas i terminalen)
-2. Backend-API:et är tillgängligt på `http://localhost:3000`
-
-## Stoppa servrarna
-
-För att stoppa servrarna:
-1. Tryck `Ctrl+C` i respektive terminalfönster
-2. Alternativt kan du använda följande kommando för att hitta och avsluta processerna:
-```bash
-lsof -i :3000,5173 | grep LISTEN
 ```
-
-## Felsökning
-
-Om du stöter på problem med portar som redan används:
-1. Kontrollera att inga andra processer använder portarna
-2. Frontend-servern kommer automatiskt att välja en annan port om 5173 är upptagen
-3. Om backend-porten (3000) är upptagen, ändra porten i `backend/server.js` 
+bio-system/
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+└── backend/
+    ├── controllers/
+    ├── models/
+    ├── routes/
+    ├── middlewares/
+    └── server.js
+```
