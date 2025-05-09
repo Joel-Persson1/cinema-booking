@@ -46,6 +46,39 @@ function Home() {
 
   return (
     <main>
+      <div className="banner-container">
+        {/* Stor bild till vänster */}
+        <div className="banner-main">
+          <img
+            src="https://www.nfbio.se/media/2023/07/mission-impossible-7-1.jpg" // Exempelbild, byt till din om du vill
+            alt="Mission Impossible Banner"
+            className="banner-main-img"
+          />
+          <span className="banner-tickets-text">TICKETS</span>
+          <div className="banner-main-content">
+            <img src="/images/tron-ares.jpg" alt="Tron Ares" />
+            <h2 style={{fontSize: '2rem', fontWeight: 'bold', marginBottom: 8}}>Kommer ut snart- Tron Ares</h2>
+            <p style={{marginBottom: 16}}>Upplev i 4DX | Förhandsvisning!</p>
+          </div>
+        </div>
+        {/* Två mindre rutor till höger */}
+        <div className="banner-side">
+          <div className="banner-side-box">
+            <img src="/images/avatar-fire-ash.jpg" alt="Avatar Fire & Ash" className="banner-side-img" />
+            <div className="banner-side-content">
+              <div className="banner-side-title">Avatar Fire & Ash</div>
+              <div className="banner-side-desc">Den är tillbaka</div>
+            </div>
+          </div>
+          <div className="banner-side-box">
+            <img src="/images/avengers.jpg" alt="The Avengers" className="banner-side-img" />
+            <div className="banner-side-content">
+              <div className="banner-side-title">The Avengers</div>
+              <div className="banner-side-desc">Kommer snart!</div>
+            </div>
+          </div>
+        </div>
+      </div>
       {user?.role === "admin" ? (
         <>
           <button

@@ -83,4 +83,213 @@
   align-items: center;
   font-size: 0.8rem;
   color: #888;
+}
+
+/* Banner container */
+.banner-container {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Stor vänsterbild */
+.banner-main {
+  flex: 2;
+  position: relative;
+  min-height: 350px;
+  background: #222;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0 0 80px 8px #ff003c55, 0 8px 32px 0 rgba(0,0,0,0.25);
+  border: 2px solid #ff003c44;
+  background: linear-gradient(120deg, #181a2b 60%, #ff003c22 100%);
+}
+
+.banner-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.banner-tickets-text {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  z-index: 2;
+  font-size: 6vw;
+  color: red;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 8px #000;
+}
+
+.banner-main-content {
+  position: relative;
+  z-index: 3;
+  padding: 2rem;
+  color: white;
+  width: 100%;
+  background: linear-gradient(120deg, rgba(30,30,40,0.95) 60%, rgba(255,0,0,0.15) 100%);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+.banner-main-content img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  margin-top: -40px;
+  box-shadow: 0 0 40px 8px #ff003c, 0 0 0 4px #fff2, 0 8px 32px 0 rgba(0,0,0,0.25);
+  filter: saturate(1.2) brightness(1.1) drop-shadow(0 0 24px #ff003c);
+  transition: none;
+}
+
+.banner-main-content img:hover {
+  transform: none;
+  box-shadow: 0 0 40px 8px #ff003c, 0 0 0 4px #fff2, 0 8px 32px 0 rgba(0,0,0,0.25);
+}
+
+.banner-main-content h2 {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+  filter: none;
+  text-shadow: none;
+}
+
+.banner-main-content p {
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: 400;
+  text-shadow: none;
+  margin-bottom: 0.5rem;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0;
+}
+
+/* Högerkolumn med två rutor */
+.banner-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.banner-side-box {
+  background: #181c2f;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 120px;
+}
+
+.banner-side-img {
+  height: 100%;
+  width: 120px;
+  object-fit: cover;
+}
+
+.banner-side-content {
+  padding: 1rem;
+  color: white;
+}
+
+.banner-side-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.banner-side-desc {
+  font-size: 0.95rem;
+  color: #b3b3b3;
+}
+
+/* Avatar Fire & Ash specialstil */
+.banner-side-box:first-child {
+  min-height: 200px;
+  padding: 0 0.5rem;
+  background: linear-gradient(120deg, #2d1a1a 60%, #ff3c00 100%);
+  box-shadow: 0 0 32px 4px #ff3c0055, 0 4px 24px 0 rgba(0,0,0,0.25);
+  border: 2px solid #ff3c0044;
+  position: relative;
+  overflow: hidden;
+  transition: none;
+}
+.banner-side-box:first-child:hover {
+  transform: none;
+  box-shadow: none;
+}
+.banner-side-box:first-child .banner-side-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 24px #ff3c00cc) saturate(1.2);
+  border-radius: 8px;
+}
+.banner-side-box:first-child .banner-side-title {
+  font-size: 1.1rem;
+  color: #fff;
+  text-shadow: 0 2px 16px #ff3c00, 0 1px 0 #fff;
+  letter-spacing: 1px;
+  font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
+}
+.banner-side-box:first-child .banner-side-desc {
+  font-size: 0.95rem;
+  color: #ffd6c6;
+  text-shadow: 0 1px 8px #ff3c00aa;
+}
+
+/* The Avengers specialstil */
+.banner-side-box:last-child {
+  min-height: 200px;
+  padding: 0 0.5rem;
+  background: linear-gradient(120deg, #1a1a2d 60%, #3c00ff 100%);
+  box-shadow: 0 0 32px 4px #3c00ff55, 0 4px 24px 0 rgba(0,0,0,0.25);
+  border: 2px solid #3c00ff44;
+  position: relative;
+  overflow: hidden;
+  transition: none;
+}
+.banner-side-box:last-child:hover {
+  transform: none;
+  box-shadow: none;
+}
+.banner-side-box:last-child .banner-side-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 24px #3c00ffcc) saturate(1.2);
+  border-radius: 8px;
+}
+.banner-side-box:last-child .banner-side-title {
+  font-size: 1.1rem;
+  color: #fff;
+  text-shadow: 0 2px 16px #3c00ff, 0 1px 0 #fff;
+  letter-spacing: 1px;
+  font-family: 'Orbitron', 'Roboto', Arial, sans-serif;
+}
+.banner-side-box:last-child .banner-side-desc {
+  font-size: 0.95rem;
+  color: #c6d6ff;
+  text-shadow: 0 1px 8px #3c00ffaa;
 } 

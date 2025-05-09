@@ -2,20 +2,28 @@ import { redirect, useLoaderData } from "react-router-dom";
 import { checkIfLoggedIn, getUpcommingBookings } from "../services/MovieApi";
 import { toast } from "react-hot-toast";
 import BookingBox from "../components/BookingBox";
+import { useEffect } from "react";
+import "../styles/BookingHistory.css";
 
 function BookingHistory() {
   const bookings = useLoaderData();
+
+  useEffect(() => {
+    document.body.classList.add("booking-history-page");
+    return () => document.body.classList.remove("booking-history-page");
+  }, []);
 
   console.log(bookings);
 
   if (!bookings) return <h1>Loading...</h1>;
 
   return (
-    <>
+    <div className="booking-history-container">
+      <h1 className="booking-history-title">Dina tidigare bokningar</h1>
       {bookings.map((booking) => (
         <BookingBox key={booking.booking_id} booking={booking} />
       ))}
-    </>
+    </div>
   );
 }
 
