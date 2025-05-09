@@ -48,7 +48,7 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   order: 2;
 }
 
@@ -57,7 +57,7 @@
   justify-content: center;
   gap: 1rem;
   margin-bottom: 1rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   order: 1;
 }
 
@@ -65,25 +65,25 @@
   font-size: 1.1rem;
   line-height: 1.6;
   margin-top: 2rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   order: 3;
 }
 
 .screenings-title {
   color: white;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.5rem;
   margin-bottom: 1rem;
   text-align: center;
 }
 
 .screening-button {
-  background-color: #4CAF50; /* Ljusgrön färg */
+  background-color: #4caf50; /* Ljusgrön färg */
   color: white;
   padding: 1rem 2rem;
   border: none;
   border-radius: 8px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -113,7 +113,7 @@ ul {
   gap: 1rem;
   margin-bottom: 2rem;
   color: white;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .seats-status-item {
@@ -129,17 +129,50 @@ ul {
 }
 
 .seats-status-dot.available {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .seats-status-dot.few {
-  background-color: #FFD700;
+  background-color: #ffd700;
 }
 
 .seats-status-dot.limited {
-  background-color: #FF9800;
+  background-color: #ff9800;
 }
 
 .seats-status-dot.sold-out {
-  background-color: #F44336;
-} 
+  background-color: #f44336;
+}
+
+.date-buttons {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.screeningButton {
+  background-color: grey;
+  cursor: pointer;
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+  border: none;
+  color: white;
+}
+
+.screeningButton:hover {
+  background-color: #5a5a5a; /* lite mörkare grå */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.screeningButton:active {
+  background-color: #3e3e3e; /* ännu mörkare grå */
+  transform: scale(0.98);
+}
+
+.screeningButton:focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
